@@ -6,7 +6,7 @@ class InvoicesController < ApplicationController
   end
 
   def show
-
+    @drugs = @invoice.drugs
   end
 
   def new
@@ -57,6 +57,6 @@ class InvoicesController < ApplicationController
 
 
     def invoice_params
-      params.fetch(:invoice, {})
+         params.require(:invoice).permit(:id)
     end
 end
