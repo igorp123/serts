@@ -1,10 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>Накладная № <%= @invoice.number%></p>
+
 <p>ИНН <%= @invoice.inn%></p> 
 
 <% @drugs.each do |drug| %>
-	<p>
-		<%= "#{drug.name} #{drug.serie} #{drug.sert_path}" %>
+  <p>
+	  <%= "#{drug.name} #{drug.serie} #{drug.sert_path}" %>
 	</p>
 <% end %>

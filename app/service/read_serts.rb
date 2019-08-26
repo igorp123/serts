@@ -17,7 +17,7 @@ class ReadSerts
         d.sert_path = drug['path']
         d.save!
 
-        i.drugs << d
+        i.drugs << d if i.drugs.find_by(id: d.id).blank?
       end
       i.save!
     end
