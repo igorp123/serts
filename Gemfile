@@ -11,6 +11,8 @@ gem 'mini_racer', platforms: :ruby
 gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
+gem 'carrierwave'
+gem 'rmagick'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

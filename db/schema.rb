@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_21_211238) do
+ActiveRecord::Schema.define(version: 2019_08_28_204957) do
 
   create_table "drugs", force: :cascade do |t|
     t.string "name"
@@ -33,6 +33,14 @@ ActiveRecord::Schema.define(version: 2019_08_21_211238) do
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "serts", force: :cascade do |t|
+    t.string "sert"
+    t.integer "drug_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["drug_id"], name: "index_serts_on_drug_id"
   end
 
 end

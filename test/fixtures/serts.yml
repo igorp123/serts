@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sert: MyString
+  drug: one
+
+two:
+  sert: MyString
+  drug: two
