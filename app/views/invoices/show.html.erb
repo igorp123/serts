@@ -2,7 +2,9 @@
 
 <p>Накладная № <%= @invoice.number%></p>
 
-<p>ИНН <%= @invoice.inn%></p> 
+<p>Дата <%= @invoice.date.strftime("%d.%m.%Y") %></p>
+
+<p>ИНН <%= @invoice.inn%></p>
 
 <% @drugs.each do |drug| %>
   <p>

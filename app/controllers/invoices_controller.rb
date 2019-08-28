@@ -6,7 +6,11 @@ class InvoicesController < ApplicationController
   end
 
   def show
-    @drugs = @invoice.drugs
+    if @invoice.present?
+      @drugs = @invoice.drugs
+    else
+      redirect_to :root, notice: "This invoice wasn't found."
+    end
   end
 
   def new
@@ -52,7 +56,7 @@ class InvoicesController < ApplicationController
 
   private
     def set_invoice
-      @invoice = Invoice.find(params[:id])
+      @invoice = Invoice.find_by(token: params[:token])
     end
 
 

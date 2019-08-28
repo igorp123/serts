@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(version: 2019_08_21_211238) do
   end
 
   create_table "invoices", force: :cascade do |t|
+    t.string "token"
     t.string "number"
     t.string "inn"
+    t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

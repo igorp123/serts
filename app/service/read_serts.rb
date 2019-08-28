@@ -6,20 +6,25 @@ class ReadSerts
     invoices = self.load_from_json(FILE_NAME)
 
     invoices.each do |invoice_data|
-     i = Invoice.where(number: invoice_data['invoice'], inn: invoice_data['inn']).first_or_initialize
-     i.number = invoice_data['invoice']
-     i.inn = invoice_data['inn']
+     invoice = Invoice.where(number: invoice_data['number'], date: invoice_data['date'],
+                             inn: invoice_data['inn']).first_or_initialize
 
-      invoice_data['drugs'].each do |drug|
-        d = Drug.where(name: drug['name'], serie: drug['serie']).first_or_initialize
-        d.name = drug['name']
-        d.serie = drug['serie']
-        d.sert_path = drug['path']
-        d.save!
+     invoice.number = invoice_data['number']
+     invoice.inn = invoice_data['inn']
 
-        i.drugs << d if i.drugs.find_by(id: d.id).blank?
+     invoice.drugs.delete_all
+
+      invoice_data['drugs'].each do |drug_data|
+        drug = Drug.where(name: drug_data['name'], serie: drug_data['serie']).first_or_initialize
+        drug.name = drug_data['name']
+        drug.serie = drug_data['serie']
+        drug.sert_path = drug_data['path']
+
+        drug.save!
+
+        invoice.drugs << drug
       end
-      i.save!
+      invoice.save!
     end
   end
 

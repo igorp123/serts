@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
   root to: 'invoices#index'
 
-  resources :invoices
+  resources :invoices, param: :token
 end
