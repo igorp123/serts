@@ -7,9 +7,9 @@ class InvoicesController < ApplicationController
 
   def show
     if @invoice.present?
-      @drugs = @invoice.drugs
+      @drugs = @invoice.drugs.order(:name)
     else
-      redirect_to :root, notice: "This invoice wasn't found."
+      redirect_to :root, notice: "The invoice wasn't found."
     end
   end
 
