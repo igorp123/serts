@@ -1,0 +1,12 @@
+<%= form_for [@drug, sert], html: { multipart: true } do |f| %>
+  <%#= render partial: 'partials/form_errors', locals: {model: sert} %>
+
+  <div class="form-group">
+    <%= f.label :sert %>
+    <%= f.file_field :sert %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Загрузить', class: 'btn btn-primary' %>
+  </div>
+<% end %>

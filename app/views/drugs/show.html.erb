@@ -1,0 +1,8 @@
+<p id="notice"><%= notice %></p>
+<p> <%= @drug.name %> </p>
+
+<div class="event-photo-form">
+  <%= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
+</div>
+<%= link_to 'Edit', edit_drug_path(@drug) %> |
+<%= link_to 'Back', drugs_path %>
