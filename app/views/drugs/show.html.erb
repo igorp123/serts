@@ -1,6 +1,10 @@
 <p id="notice"><%= notice %></p>
 <p> <%= @drug.name %> </p>
 
+<div class="drug-serts-galllery">
+  <%= render partial: 'serts/sert', collection: @drug.serts.except(@new_sert) %>
+</div>
+
 <div class="event-photo-form">
   <%= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
 </div>

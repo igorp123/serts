@@ -6,17 +6,15 @@ class SertsController < ApplicationController
     @new_sert = @drug.serts.build(sert_params)
 
     if @new_sert.save
-      redirect_to @drug, notice: 'Sert added'
+      redirect_to @drug, notice: 'Serts has been added'
     else
-      render 'drug/show', alert: 'Sert did not add'
+      render 'drug/show', alert: 'Serts has not been added'
     end
   end
 
   def destroy
     @sert.destroy
-    respond_to do |format|
-      redirect_to @drug, notice: 'Sert was successfully destroyed.'
-    end
+    redirect_to @drug, notice: 'Sert was successfully destroyed.'
   end
 
   private
