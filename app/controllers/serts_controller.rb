@@ -3,7 +3,7 @@ class SertsController < ApplicationController
   before_action :set_sert, only: [:destroy]
 
   def create
-    @new_sert = @drug.serts.build(sert_params)
+    @new_sert = @drug.serts.build(sert: file)
 
     if @new_sert.save
       redirect_to @drug, notice: 'Serts has been added'
