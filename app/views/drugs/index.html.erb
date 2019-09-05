@@ -12,6 +12,7 @@
   <tbody>
     <% @drugs.each do |drug| %>
       <tr>
+        <td><%= "#{drug.name} #{drug.serie}" %></td>
         <td><%= link_to 'Show', drug %></td>
         <td><%= link_to 'Edit', edit_drug_path(drug) %></td>
         <td><%= link_to 'Destroy', drug, method: :delete, data: { confirm: 'Are you sure?' } %></td>
