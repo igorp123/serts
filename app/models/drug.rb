@@ -3,7 +3,7 @@ require 'net/ftp'
 class Drug < ApplicationRecord
   after_create :get_serts_from_ftp
 
-  IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif)
+  IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
   TMP_PATH = 'public/uploads/tmp/'
 
   has_and_belongs_to_many :invoices
@@ -12,7 +12,7 @@ class Drug < ApplicationRecord
   private
 
   def get_serts_from_ftp
-    Net::FTP.open('192.168.137.237', 'igor', '') do |ftp|
+    Net::FTP.open('192.168.137.237', 'igor', 'Olga3010') do |ftp|
       ftp.chdir(self.sert_path)
 
       files = ftp.nlst
