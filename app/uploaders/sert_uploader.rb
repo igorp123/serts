@@ -21,7 +21,7 @@ class SertUploader < CarrierWave::Uploader::Base
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
 
-  # Process files as they are uploaded:
+  #Process files as they are uploaded:
   process resize_to_fit: [1240, 1754]
   process convert: 'jpg'
 
@@ -31,7 +31,7 @@ class SertUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :thumb do
-    process resize_to_fit: [100, 100]
+    process resize_to_fit: [150, 150]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
