@@ -8,6 +8,8 @@
 
 <% @drugs.each do |drug| %>
   <p>
-	  <%= link_to "#{drug.name} #{drug.serie} #{drug.sert_path}", drug %>
-	</p>
+    <%= link_to "#{drug.name} #{drug.serie} #{drug.sert_path}", drug %>
+  </p>
 <% end %>
+
+<%= link_to 'Back', invoices_path %>
