@@ -19,14 +19,10 @@ class DrugsController < ApplicationController
   def create
     @drug = Drug.new(drug_params)
 
-    respond_to do |format|
-      if @drug.save
-        format.html { redirect_to @drug, notice: 'Drug was successfully created.' }
-        format.json { render :show, status: :created, location: @drug }
-      else
-        format.html { render :new }
-        format.json { render json: @drug.errors, status: :unprocessable_entity }
-      end
+    if @drug.save
+      redirect_to @drug, notice: 'Drug was successfully created.'
+    else
+      render :new
     end
   end
 

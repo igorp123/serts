@@ -27,6 +27,6 @@ class SertsController < ApplicationController
     end
 
     def sert_params
-      params.fetch(:sert, {}).permit(:sert)
+      params.require(:sert).permit(:sert)
     end
 end

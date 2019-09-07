@@ -8,6 +8,6 @@
 
 <% @drugs.each do |drug| %>
   <p>
-	  <%= link_to "#{drug.name} #{drug.serie} #{drug.sert_path}", drug_path(drug) %>
+	  <%= link_to "#{drug.name} #{drug.serie} #{drug.sert_path}", drug %>
 	</p>
 <% end %>
