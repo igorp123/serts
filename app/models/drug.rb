@@ -1,6 +1,7 @@
 require 'net/ftp'
 
 class Drug < ApplicationRecord
+  before_create :generate_token
   after_create :get_serts_from_ftp
 
   IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
@@ -8,6 +9,12 @@ class Drug < ApplicationRecord
 
   has_and_belongs_to_many :invoices
   has_many :serts
+
+  def to_param
+    token
+  end
+
+  private
 
   private
 
@@ -35,5 +42,9 @@ class Drug < ApplicationRecord
       end
       ftp.close
     end
+  end
+
+  def generate_token
+    self.token = SecureRandom.hex(4)
   end
 end

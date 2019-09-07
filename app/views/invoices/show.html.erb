@@ -6,10 +6,22 @@
 
 <p>ИНН <%= @invoice.inn%></p>
 
-<% @drugs.each do |drug| %>
-  <p>
-    <%= link_to "#{drug.name} #{drug.serie} #{drug.sert_path}", drug %>
-  </p>
-<% end %>
+<table class="table table-bordered customer_drugs_table">
+  <thead class="table-secondary">
+    <tr class="text-center ">
+    <th class="align-middle">Номенклатура</th>
+    <th class="align-middle">Серия</th>
+    </tr>
+  </thead>
+  <% @drugs.each do |drug| %>
+  <tr>
+    <td><%= link_to "#{drug.name}", drug %></td>
+    <td><%= link_to "#{drug.serie}", drug %></td>
+  </tr>
+<% end %>  
+
+</table>
+
+
 
 <%= link_to 'Back', invoices_path %>

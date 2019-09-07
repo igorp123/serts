@@ -6,7 +6,11 @@ class DrugsController < ApplicationController
   end
 
   def show
-    @new_sert = @drug.serts.build(params[:sert])
+    if @drug.present?
+      @new_sert = @drug.serts.build(params[:sert])
+    else
+      redirect_to :root, notice: "The drug wasn't found."
+    end
   end
 
   def new
@@ -48,7 +52,7 @@ class DrugsController < ApplicationController
 
   private
     def set_drug
-      @drug = Drug.find(params[:id])
+      @drug = Drug.find_by(token: params[:token])
     end
 
     def drug_params

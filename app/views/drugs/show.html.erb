@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
-<p> <%= @drug.name %> </p>
+<p><%= @drug.name %></p>
+<p>Серия <%= @drug.serie %></p>
 
 <div class="drug-serts-galllery">
   <%= render partial: 'serts/sert', collection: @drug.serts.except(@new_sert) %>
