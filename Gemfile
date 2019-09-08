@@ -15,6 +15,7 @@ gem 'carrierwave'
 gem 'rmagick', :require => 'RMagick'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+gem 'simple_form'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

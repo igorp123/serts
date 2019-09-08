@@ -1,5 +1,6 @@
 class DrugsController < ApplicationController
   before_action :set_drug, only: [:show, :edit, :update, :destroy]
+  before_action :set_invoice, only: [:show]
 
   def index
     @drugs = Drug.all
@@ -7,6 +8,7 @@ class DrugsController < ApplicationController
 
   def show
     if @drug.present?
+
       @new_sert = @drug.serts.build(params[:sert])
     else
       redirect_to :root, notice: "The drug wasn't found."
@@ -55,7 +57,11 @@ class DrugsController < ApplicationController
       @drug = Drug.find_by(token: params[:token])
     end
 
+    def set_invoice
+      @invoice = Invoice.find_by(token: params[:invoice_token])
+    end
+
     def drug_params
-      params.require(:drug).permit(:id)
+      params.require(:drug).permit(:token, :invoice_token)
     end
 end

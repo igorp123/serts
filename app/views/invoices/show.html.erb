@@ -15,8 +15,8 @@
   </thead>
   <% @drugs.each do |drug| %>
   <tr>
-    <td><%= link_to "#{drug.name}", drug %></td>
-    <td><%= link_to "#{drug.serie}", drug %></td>
+    <td><%= link_to "#{drug.name}", invoice_drug_path(@invoice.token, drug.token) %></td>
+    <td><%= link_to "#{drug.serie}", invoice_drug_path(@invoice.token, drug.token) %></td>
   </tr>
 <% end %>  
 
