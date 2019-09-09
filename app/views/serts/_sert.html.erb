@@ -1,6 +1,4 @@
-<div class="drug-sert buffer-both">
-  <%= link_to image_tag(sert.sert.thumb.url), sert.sert.url %>
-  <%= link_to 'Удалить', invoice_drug_sert_path(@invoice.token, @drug.token, sert.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-</div>
+<%= link_to (image_tag(sert.sert.thumb.url, class: "drug-sert")), sert.sert.url %>
+<%#= link_to 'Удалить', invoice_drug_sert_path(@invoice.token, @drug.token, sert.id), method: :delete, data: { confirm: 'Are you sure?' } %>
 
 

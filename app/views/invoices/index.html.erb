@@ -1,20 +1,20 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Найти накладную</h1>
+<h2>Найти сертификаты</h2>
 
 <%#= render partial: 'invoice', collection: @invoices %>
+<div class="buffer-top">
+  <%= simple_form_for @invoice do |f| %>
+  	<%= f.input :number %>
 
-<%= simple_form_for @invoice do |f| %>
-	<%= f.input :number %>
-  
-  <%#= f.input :inn %>
+    <%= f.input :date, as: :date, start_year: Date.today.year, end_year: Date.today.year, order: [:day, :month, :year], html5: true %>
 
-  <%#= f.input :date, as: :date, start_year: Date.today.year, end_year: Date.today.year, order: [:day, :month, :year] %>
+    <%= f.input :inn %>
 
-  <%= f.submit 'Найти', class: 'btn btn-primary' %>
-<% end %>
+    <%= f.submit 'Найти', class: 'btn btn-primary' %>
+  <% end %>
+</div>
 
 
 
-  
- 
+

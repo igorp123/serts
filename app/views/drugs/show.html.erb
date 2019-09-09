@@ -1,13 +1,21 @@
 <p id="notice"><%= notice %></p>
-<p><%= @drug.name %></p>
-<p>Серия <%= @drug.serie %></p>
 
-<div class="drug-serts-galllery">
+<div class="h4">
+  <span class="font-weight-bold"><%= @drug.name %></span>
+</div>
+
+<div class="h5 buffer-top">
+  Серия <span class="font-weight-bold"><%= @drug.serie %></span>
+</div>
+
+<div class="drug-serts buffer-top">
   <%= render partial: 'serts/sert', collection: @drug.serts.except(@new_sert) %>
 </div>
 
 <div class="sert-image-form">
-  <%= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
+  <%#= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
 </div>
 
-<%= link_to 'Back', @invoice %>
+<div class="buffer-top">
+  <%= link_to 'Back', @invoice %>
+</div>

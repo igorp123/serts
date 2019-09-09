@@ -22,12 +22,11 @@ class InvoicesController < ApplicationController
   end
 
   def create
-
-    @invoice = Invoice.find_by(number: params[:invoice][:number])
-
+    @invoice = Invoice.find_by(invoice_params)
     if @invoice.present?
       redirect_to @invoice
     else
+      @invoice = Invoice.new(invoice_params)
       render :index
     end
   end
@@ -40,6 +39,6 @@ class InvoicesController < ApplicationController
 
 
     def invoice_params
-      params.require(:invoice).permit(:id, :invoice[:number], :inn, :date)
+      params.require(:invoice).permit(:token, :number, :inn, :date)
     end
 end

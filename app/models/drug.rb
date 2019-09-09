@@ -10,6 +10,8 @@ class Drug < ApplicationRecord
   has_and_belongs_to_many :invoices
   has_many :serts
 
+  validates :number, :inn, :date, presence: true
+
   def to_param
     token
   end

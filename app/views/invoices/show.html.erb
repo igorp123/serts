@@ -1,12 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-<p>Накладная № <%= @invoice.number%></p>
+<div class="h4">
+  Накладная № <%= @invoice.number%>
+  от <%= @invoice.date.strftime("%d.%m.%Y") %>
+</div>
 
-<p>Дата <%= @invoice.date.strftime("%d.%m.%Y") %></p>
+<div class="h5">
+  ИНН <%= @invoice.inn%>
+</div>
 
-<p>ИНН <%= @invoice.inn%></p>
-
-<table class="table table-bordered customer_drugs_table">
+<table class="table table-bordered customer_drugs_table buffer-top">
   <thead class="table-secondary">
     <tr class="text-center ">
     <th class="align-middle">Номенклатура</th>
@@ -18,7 +21,7 @@
     <td><%= link_to "#{drug.name}", invoice_drug_path(@invoice.token, drug.token) %></td>
     <td><%= link_to "#{drug.serie}", invoice_drug_path(@invoice.token, drug.token) %></td>
   </tr>
-<% end %>  
+<% end %>
 
 </table>
 
