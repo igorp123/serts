@@ -1,4 +1,6 @@
 require 'net/ftp'
+require 'rubygems'
+require 'zip'
 
 class Drug < ApplicationRecord
   before_create :generate_token
@@ -16,7 +18,25 @@ class Drug < ApplicationRecord
     token
   end
 
-  private
+  def zip_serts
+    file_paths = serts.map{|sert| "public#{sert.sert.url}"}
+    file_paths.pop
+
+    Zip::OutputStream.write_buffer do |stream|
+      file_paths.each_with_index do |file_path, index|
+
+      stream.put_next_entry("#{name}")
+
+      stream.write IO.read(file_path)
+
+      byebug
+
+      end
+
+    end
+
+  end
+
 
   private
 

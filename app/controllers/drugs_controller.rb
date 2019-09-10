@@ -8,8 +8,8 @@ class DrugsController < ApplicationController
 
   def show
     if @drug.present?
-
       @new_sert = @drug.serts.build(params[:sert])
+      @drug.zip_serts
     else
       redirect_to :root, notice: "The drug wasn't found."
     end
