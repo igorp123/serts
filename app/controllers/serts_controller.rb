@@ -27,9 +27,9 @@ class SertsController < ApplicationController
       @drug = Drug.find_by(token: params[:drug_token])
     end
 
-    def set_invoice
-      @invoice = Invoice.find_by(token: params[:invoice_token])
-    end
+    # def set_invoice
+    #   @invoice = Invoice.find_by(token: params[:invoice_token])
+    # end
 
     def sert_params
       params.require(:sert).permit(:sert, :drug_token)

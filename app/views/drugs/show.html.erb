@@ -18,8 +18,8 @@
 
 <%#= link_to 'Download', "/test.zip", download: 'test.zip' %>
 
-<%= link_to 'Download', download_invoice_drug_path(@invoice.token, @drug.token) %>
+<%= link_to 'Download', download_drug_path(@drug.token) %>
 
 <div class="buffer-top">
-  <%= link_to 'Back', @invoice %>
+  <%= link_to 'Back', :back %>
 </div>
