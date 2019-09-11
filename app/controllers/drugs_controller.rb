@@ -33,7 +33,8 @@ class DrugsController < ApplicationController
 
   def download
     @drug.zip_serts
-    file = File.open('public/test.zip')
+
+    file = File.open(Drug::TMP_ZIP_FILE)
 
     send_file file
   end

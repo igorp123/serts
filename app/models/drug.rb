@@ -8,6 +8,7 @@ class Drug < ApplicationRecord
 
   IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
   TMP_PATH = 'public/uploads/tmp/'
+  TMP_ZIP_FILE = 'public/serts.zip'
 
   has_and_belongs_to_many :invoices
   has_many :serts
@@ -37,7 +38,7 @@ class Drug < ApplicationRecord
 
     file.rewind
 
-    File.new('public/test.zip', 'wb').write(file.sysread)
+    File.new(TMP_ZIP_FILE, 'wb').write(file.sysread)
   end
 
 
