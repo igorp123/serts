@@ -19,22 +19,38 @@ class Drug < ApplicationRecord
   end
 
   def zip_serts
-    file_paths = serts.map{|sert| "public#{sert.sert.url}"}
-    file_paths.pop
+    # file_paths = serts.map{|sert| "public#{sert.sert.url}"}
+    # file_paths.pop
 
-    Zip::OutputStream.write_buffer do |stream|
-      file_paths.each_with_index do |file_path, index|
+    # file = Zip::OutputStream.write_buffer do |stream|
+    #   file_paths.each_with_index do |file_path, index|
 
-      stream.put_next_entry("#{name}")
+    #   sert_name = file_path.split('/').last
 
-      stream.write IO.read(file_path)
+    #   stream.put_next_entry("#{sert_name}")
+    #   stream.write IO.read(file_path)
+    #   end
+    # end
 
-      byebug
+    sert_to_delete = serts.last
+    serts.delete(sert_to_delete)
 
+    file = Zip::OutputStream.write_buffer do |stream|
+      serts.each do |sert|
+
+      #sert_name = file_path.split('/').last
+
+      sert_name = sert.sert.identifier
+
+      stream.put_next_entry("#{sert_name}")
+      stream.write IO.read("public#{sert.sert.url}")
       end
-
     end
 
+
+    file.rewind
+
+    File.new('public/test.zip', 'wb').write(file.sysread)
   end
 
 

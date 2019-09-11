@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <div class="h4">
-  <span class="font-weight-bold"><%= @drug.name %></span>
+  <%= @drug.name %>
 </div>
 
 <div class="h5 buffer-top">
@@ -15,6 +15,8 @@
 <div class="sert-image-form">
   <%#= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
 </div>
+
+<%= link_to 'Download', "/test.zip", download: 'test.zip' %>
 
 <div class="buffer-top">
   <%= link_to 'Back', @invoice %>
