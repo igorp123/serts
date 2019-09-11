@@ -16,7 +16,9 @@
   <%#= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
 </div>
 
-<%= link_to 'Download', "/test.zip", download: 'test.zip' %>
+<%#= link_to 'Download', "/test.zip", download: 'test.zip' %>
+
+<%= link_to 'Download', download_invoice_drug_path(@invoice.token, @drug.token) %>
 
 <div class="buffer-top">
   <%= link_to 'Back', @invoice %>

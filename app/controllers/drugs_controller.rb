@@ -1,5 +1,5 @@
 class DrugsController < ApplicationController
-  before_action :set_drug, only: [:show, :edit, :update, :destroy]
+  before_action :set_drug, only: [:show, :edit, :update, :destroy, :download]
   before_action :set_invoice, only: [:show]
 
   def index
@@ -9,7 +9,7 @@ class DrugsController < ApplicationController
   def show
     if @drug.present?
       @new_sert = @drug.serts.build(params[:sert])
-      @drug.zip_serts
+
     else
       redirect_to :root, notice: "The drug wasn't found."
     end
@@ -32,16 +32,11 @@ class DrugsController < ApplicationController
     end
   end
 
-  def update
-    respond_to do |format|
-      if @drug.update(drug_params)
-        format.html { redirect_to @drug, notice: 'Drug was successfully updated.' }
-        format.json { render :show, status: :ok, location: @drug }
-      else
-        format.html { render :edit }
-        format.json { render json: @drug.errors, status: :unprocessable_entity }
-      end
-    end
+  def download
+    @drug.zip_serts
+    file = File.open('public/test.zip')
+
+    send_file file
   end
 
   def destroy

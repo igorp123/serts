@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :drugs, param: :token do
     resources :serts
+
+    get :download, on: :member
   end
 
 end
