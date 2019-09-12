@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <div class="h4">
   <%= @drug.name %>
 </div>
@@ -16,10 +14,8 @@
   <%#= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
 </div>
 
-<%#= link_to 'Download', "/test.zip", download: 'test.zip' %>
-
 <%= link_to 'Download', download_drug_path(@drug.token) %>
 
 <div class="buffer-top">
-  <%= link_to 'Back', :back %>
+  <%= link_to 'Назад', :back %>
 </div>

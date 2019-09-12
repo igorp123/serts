@@ -5,22 +5,20 @@
   от <%= @invoice.date.strftime("%d.%m.%Y") %>
 </div>
 
-<table class="table table-bordered customer_drugs_table buffer-top">
-  <thead class="table-secondary">
-    <tr class="text-center ">
-    <th class="align-middle">Номенклатура</th>
-    <th class="align-middle">Серия</th>
+<table class="table buffer-top">
+  <thead>
+
+    <th scope="col">Номенклатура</th>
+    <th scope="col">Серия</th>
     </tr>
   </thead>
-  <% @drugs.each do |drug| %>
-  <tr>
-    <td><%= link_to "#{drug.name}", drug %></td>
-    <td><%= link_to "#{drug.serie}", drug %></td>
-  </tr>
-<% end %>
 
+  <% @drugs.each do |drug| %>
+    <tr>
+      <td><%= link_to "#{drug.name}", drug %></td>
+      <td><%= link_to "#{drug.serie}", drug %></td>
+    </tr>
+  <% end %>
 </table>
 
-
-
-<%= link_to 'Back', invoices_path %>
+<%= link_to 'Назад', invoices_path %>
