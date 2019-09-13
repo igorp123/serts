@@ -5,13 +5,13 @@ class ReadSerts
   def self.call
     invoices = self.load_from_json(FILE_NAME)
 
+
     invoices.each do |invoice_data|
      invoice = Invoice.where(number: invoice_data['number'], date: invoice_data['date'],
                              inn: invoice_data['inn']).first_or_initialize
 
      invoice.number = invoice_data['number']
      invoice.inn = invoice_data['inn']
-
      invoice.drugs.delete_all
 
       invoice_data['drugs'].each do |drug_data|

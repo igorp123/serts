@@ -13,17 +13,15 @@ class Drug < ApplicationRecord
   has_and_belongs_to_many :invoices
   has_many :serts
 
-  validates :number, :inn, :date, presence: true
-
   def to_param
     token
   end
 
   def zip_serts
-    if serts.last.nil?
-      sert_to_delete = serts.last
-      serts.delete(sert_to_delete)
-    end
+    # if serts.last.nil?
+    #   sert_to_delete = serts.last
+    #   serts.delete(sert_to_delete)
+    # end
 
     file = Zip::OutputStream.write_buffer do |stream|
       serts.each do |sert|
@@ -45,13 +43,13 @@ class Drug < ApplicationRecord
   private
 
   def get_serts_from_ftp
-    Net::FTP.open('192.168.137.237', 'igor', 'Olga3010') do |ftp|
+    Net::FTP.open('192.168.137.237', 'igor', 'Olga') do |ftp|
       ftp.chdir(self.sert_path)
 
       files = ftp.nlst
 
       files.each_with_index do |file, index|
-        file_extension = file.split('.')[-1]
+        file_extension = file.split('.').last
 
         if IMAGE_TYPES.include? file_extension
           local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
@@ -63,7 +61,6 @@ class Drug < ApplicationRecord
           self.serts.build(sert: sert_file).save
 
           File.delete(local_file_name)
-
         end
       end
       ftp.close
