@@ -8,7 +8,6 @@ class DrugsController < ApplicationController
   def show
     if @drug.present?
       @new_sert = @drug.serts.build(params[:sert])
-
     else
       redirect_to :root, notice: "The drug wasn't found."
     end
@@ -34,9 +33,7 @@ class DrugsController < ApplicationController
   def download
     @drug.zip_serts
 
-    file = File.open(Drug::TMP_ZIP_FILE)
-
-    send_file file
+    send_file File.open(@drug.zip_file_name)
   end
 
   def destroy

@@ -5,11 +5,9 @@ require 'zip'
 class Drug < ApplicationRecord
   before_create :generate_token
   after_create :get_serts_from_ftp
-  after_find :increase_counter
 
   IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
   TMP_PATH = 'public/uploads/tmp/'
-  TMP_ZIP_FILE = 'public/serts.zip'
 
   has_and_belongs_to_many :invoices
   has_many :serts
@@ -23,23 +21,24 @@ class Drug < ApplicationRecord
     #   sert_to_delete = serts.last
     #   serts.delete(sert_to_delete)
     # end
-
     file = Zip::OutputStream.write_buffer do |stream|
       serts.each do |sert|
+        sert_name = sert.sert.identifier
 
-      sert_name = sert.sert.identifier
+        stream.put_next_entry("#{sert_name}")
 
-      stream.put_next_entry("#{sert_name}")
-      stream.write IO.read("public#{sert.sert.url}")
+        stream.write IO.read("public#{sert.sert.url}")
       end
     end
 
-
     file.rewind
 
-    File.new(TMP_ZIP_FILE, 'wb').write(file.sysread)
+    File.new(zip_file_name, 'wb').write(file.sysread)
   end
 
+  def zip_file_name
+    "public/#{token}_serts.zip"
+  end
 
   private
 
@@ -70,11 +69,5 @@ class Drug < ApplicationRecord
 
   def generate_token
     self.token = SecureRandom.hex(4)
-  end
-
-  def increase_counter
-    counter ||= 0
-    counter += 1
-    self.save!
   end
 end
