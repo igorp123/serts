@@ -24,6 +24,7 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.find_by(invoice_params)
     if @invoice.present?
+      @invoice.increment!(:counter, 1)
       redirect_to @invoice
     else
       @invoice = Invoice.new(invoice_params)

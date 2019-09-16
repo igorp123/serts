@@ -5,6 +5,7 @@ require 'zip'
 class Drug < ApplicationRecord
   before_create :generate_token
   after_create :get_serts_from_ftp
+  after_find :increase_counter
 
   IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
   TMP_PATH = 'public/uploads/tmp/'
@@ -69,5 +70,11 @@ class Drug < ApplicationRecord
 
   def generate_token
     self.token = SecureRandom.hex(4)
+  end
+
+  def increase_counter
+    counter ||= 0
+    counter += 1
+    self.save!
   end
 end
