@@ -16,35 +16,8 @@ class Drug < ApplicationRecord
     token
   end
 
-  def zip_serts
-    # if serts.last.nil?
-    #   sert_to_delete = serts.last
-    #   serts.delete(sert_to_delete)
-    # end
-    file = Zip::OutputStream.write_buffer do |stream|
-      serts.each do |sert|
-        sert_name = sert.sert.identifier
-
-        stream.put_next_entry("#{sert_name}")
-
-        stream.write IO.read("public#{sert.sert.url}")
-      end
-    end
-
-    file.rewind
-
-    File.new(zip_file_name, 'wb').write(file.sysread)
-  end
-
-  def zip_file_name
-    "public/#{token}_serts.zip"
-  end
-
-  private
-
   def get_serts_from_ftp
     Net::FTP.open('192.168.137.237', 'igor', 'Olga') do |ftp|
-      ftp.chdir(self.sert_path)
 
       files = ftp.nlst
 
@@ -67,7 +40,40 @@ class Drug < ApplicationRecord
     end
   end
 
+  def create_serts_zip
+    file = Zip::OutputStream.write_buffer do |stream|
+      serts.each do |sert|
+        sert_name = sert.sert.identifier
+
+        stream.put_next_entry("#{sert_name}")
+
+        stream.write IO.read("public#{sert.sert.url}")
+      end
+    end
+
+    file.rewind
+
+    File.new(zip_file_name, 'wb').write(file.sysread)
+  end
+
+  def create_serts_pdf
+    Prawn::Document.generate("test.pdf") do |pdf|
+      serts.each do |sert|
+        pdf.image "public#{sert.sert.url}", fit: [pdf.bounds.right, pdf.bounds.top]
+
+        pdf.start_new_page unless pdf.page_count == serts.length
+      end
+    end
+  end
+
+  def zip_file_name
+    "public/#{token}_serts.zip"
+  end
+
+private
+
   def generate_token
     self.token = SecureRandom.hex(4)
   end
 end
+

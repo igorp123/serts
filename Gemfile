@@ -18,6 +18,7 @@ gem 'jquery-rails'
 gem 'simple_form'
 gem 'rails-i18n'
 gem 'rubyzip', '>= 1.0.0'
+gem 'prawn', '~>2.2.0' #pdf creator
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
