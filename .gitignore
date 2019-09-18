@@ -33,4 +33,6 @@
 /public/uploads
 /public/img
 
-public/*.zip
+/public/uploads/zip/*
+/public/uploads/pdf/*
+

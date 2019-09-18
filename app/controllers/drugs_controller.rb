@@ -1,6 +1,5 @@
 class DrugsController < ApplicationController
-  before_action :set_drug, only: [:show, :edit, :update, :destroy,
-                                  :download_zip, :download_pdf]
+  before_action :set_drug, only: [:show, :edit, :update, :destroy, :download]
 
   def index
     @drugs = Drug.all
@@ -31,15 +30,11 @@ class DrugsController < ApplicationController
     end
   end
 
-  def download_zip
-    @drug.create_serts_zip
-
-    send_file File.open(@drug.zip_file_name)
-  end
-
-  def download_pdf
-    @drug.create_serts_pdf
-    send_file File.open('test.pdf')
+  def download
+    respond_to do |format|
+      format.zip { send_file @drug.create_serts_zip }
+      format.pdf { send_file @drug.create_serts_pdf }
+    end
   end
 
   def destroy

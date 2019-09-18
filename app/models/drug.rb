@@ -47,33 +47,44 @@ class Drug < ApplicationRecord
 
         stream.put_next_entry("#{sert_name}")
 
-        stream.write IO.read("public#{sert.sert.url}")
+        stream.write IO.read(sert_url(sert))
       end
     end
 
     file.rewind
 
     File.new(zip_file_name, 'wb').write(file.sysread)
+
+    zip_file_name
   end
 
   def create_serts_pdf
-    Prawn::Document.generate("test.pdf") do |pdf|
+    Prawn::Document.generate(pdf_file_name) do |pdf|
       serts.each do |sert|
-        pdf.image "public#{sert.sert.url}", fit: [pdf.bounds.right, pdf.bounds.top]
+        pdf.image sert_url(sert), fit: [pdf.bounds.right, pdf.bounds.top]
 
         pdf.start_new_page unless pdf.page_count == serts.length
       end
     end
-  end
-
-  def zip_file_name
-    "public/#{token}_serts.zip"
+    pdf_file_name
   end
 
 private
 
   def generate_token
     self.token = SecureRandom.hex(4)
+  end
+
+  def zip_file_name
+    "public/uploads/zip/#{token}_serts.zip"
+  end
+
+  def pdf_file_name
+    "public/uploads/pdf/#{token}_serts.pdf"
+  end
+
+  def sert_url(sert)
+    "public#{sert.sert.url}"
   end
 end
 
