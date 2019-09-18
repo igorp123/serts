@@ -1,17 +1,21 @@
 class ReadSerts
 
-  FILE_NAME = 'public/invoices.json'
+  FILE_NAME = 'public/invoices1.json'
 
   def self.call
     invoices = self.load_from_json(FILE_NAME)
 
 
     invoices.each do |invoice_data|
-     invoice = Invoice.where(number: invoice_data['number'], date: invoice_data['date'],
-                             inn: invoice_data['inn']).first_or_initialize
+     invoice = Invoice.where('STRFTIME("%Y", date) = ? and number = ? and inn = ?',
+                             Date.parse(invoice_data['date']).year.to_s,
+                             invoice_data['number'],
+                             invoice_data['inn']).first_or_initialize
 
+     invoice.date = invoice_data['date']
      invoice.number = invoice_data['number']
      invoice.inn = invoice_data['inn']
+
      invoice.drugs.delete_all
 
       invoice_data['drugs'].each do |drug_data|
