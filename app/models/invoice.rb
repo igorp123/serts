@@ -5,6 +5,8 @@ class Invoice < ApplicationRecord
 
   has_and_belongs_to_many :drugs
 
+  validates :number, :date, :inn,  presence: true
+
   def to_param
     token
   end

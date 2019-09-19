@@ -10,7 +10,7 @@ class InvoicesController < ApplicationController
     if @invoice.present?
       @drugs = @invoice.drugs.order(:name)
     else
-      redirect_to :root, notice: "The invoice wasn't found."
+      redirect_to 'invoice/index', notice: "The invoice wasn't found."
     end
   end
 
@@ -28,6 +28,8 @@ class InvoicesController < ApplicationController
       redirect_to @invoice
     else
       @invoice = Invoice.new(invoice_params)
+      byebug
+      flash.now[:alert] = "The invoice wasn't found."
       render :index
     end
   end
