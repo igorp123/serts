@@ -10,7 +10,7 @@ class InvoicesController < ApplicationController
     if @invoice.present?
       @drugs = @invoice.drugs.order(:name)
     else
-      redirect_to 'invoice/index', notice: "The invoice wasn't found."
+      #redirect_to 'invoice/index', notice: "The invoice wasn't found."
     end
   end
 
@@ -22,22 +22,24 @@ class InvoicesController < ApplicationController
   end
 
   def create
-    @invoice = Invoice.find_by(invoice_params)
-    if @invoice.present?
-      @invoice.increment!(:counter, 1)
-      redirect_to @invoice
+    @invoice = Invoice.new(invoice_params)
+    render :index and return unless @invoice.valid?
+
+    @invoice_found = Invoice.find_by(invoice_params)
+
+    if @invoice_found.present?
+      @invoice_found.increment!(:counter, 1)
+
+      redirect_to @invoice_found and return
     else
-      @invoice = Invoice.new(invoice_params)
-      if @invoice.valid?
-      else
       flash.now[:alert] = "The invoice wasn't found."
-      render :index
     end
-    end
+    render :index
   end
 
 
   private
+
     def set_invoice
       @invoice = Invoice.find_by(token: params[:token])
     end
