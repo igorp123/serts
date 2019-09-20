@@ -28,9 +28,11 @@ class InvoicesController < ApplicationController
       redirect_to @invoice
     else
       @invoice = Invoice.new(invoice_params)
-      byebug
+      if @invoice.valid?
+      else
       flash.now[:alert] = "The invoice wasn't found."
       render :index
+    end
     end
   end
 

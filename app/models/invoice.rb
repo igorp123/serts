@@ -5,7 +5,9 @@ class Invoice < ApplicationRecord
 
   has_and_belongs_to_many :drugs
 
-  validates :number, :date, :inn,  presence: true
+  validates :number, presence: true, format: { with: /\A[MМ0-9][0-9]+\z/ }
+  validates :date,  presence: true
+  validates :inn,  presence: true, length: { is: 10 }, format: { with: /\A[0-9]+\z/}
 
   def to_param
     token
