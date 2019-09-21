@@ -16,30 +16,6 @@ class Drug < ApplicationRecord
     token
   end
 
-  def get_serts_from_ftp
-    Net::FTP.open('192.168.137.237', 'igor', 'Olga') do |ftp|
-
-      files = ftp.nlst
-
-      files.each_with_index do |file, index|
-        file_extension = file.split('.').last
-
-        if IMAGE_TYPES.include? file_extension
-          local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
-
-          ftp.getbinaryfile(file, local_file_name)
-
-          sert_file = File.open(local_file_name)
-
-          self.serts.build(sert: sert_file).save
-
-          File.delete(local_file_name)
-        end
-      end
-      ftp.close
-    end
-  end
-
   def create_serts_zip
     file = Zip::OutputStream.write_buffer do |stream|
       serts.each do |sert|
@@ -85,6 +61,30 @@ private
 
   def sert_url(sert)
     "public#{sert.sert.url}"
+  end
+
+  def get_serts_from_ftp
+    Net::FTP.open('192.168.137.237', 'igor', 'Olga') do |ftp|
+      ftp.chdir(self.sert_path)
+      files = ftp.nlst
+
+      files.each_with_index do |file, index|
+        file_extension = file.split('.').last
+
+        if IMAGE_TYPES.include? file_extension
+          local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
+
+          ftp.getbinaryfile(file, local_file_name)
+
+          sert_file = File.open(local_file_name)
+
+          self.serts.build(sert: sert_file).save
+
+          File.delete(local_file_name)
+        end
+      end
+      ftp.close
+    end
   end
 end
 

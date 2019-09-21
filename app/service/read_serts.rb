@@ -1,6 +1,6 @@
 class ReadSerts
 
-  FILE_NAME = 'public/invoices1.json'
+  FILE_NAME = 'public/invoices.json'
 
   def self.call
     invoices = self.load_from_json(FILE_NAME)
