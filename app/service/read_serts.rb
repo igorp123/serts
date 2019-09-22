@@ -12,6 +12,11 @@ class ReadSerts
                              invoice_data['number'],
                              invoice_data['inn']).first_or_initialize
 
+
+     #invoice = Invoice.where("date_part('year', date) = ? and number = ? and inn = ?",
+                             Date.parse(invoice_data['date']).year.to_s,
+                             invoice_data['number'],
+                             invoice_data['inn']).first_or_initialize
      invoice.date = invoice_data['date']
      invoice.number = invoice_data['number']
      invoice.inn = invoice_data['inn']
