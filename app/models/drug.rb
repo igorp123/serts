@@ -65,7 +65,7 @@ private
 
   def get_serts_from_ftp
     #Net::FTP.open('192.168.137.237', 'igor', 'Olga') do |ftp|
-     Net::FTP.open('91.239.68.66', Rails.application.credentials.ftp.login!, Rails.application.credentials.ftp.password!) do |ftp|
+     Net::FTP.open('91.239.68.66', Rails.application.credentials.ftp[:login], Rails.application.credentials.ftp[:password]) do |ftp|
       ftp.chdir(self.sert_path)
       files = ftp.nlst
 
