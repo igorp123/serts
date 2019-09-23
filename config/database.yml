@@ -22,6 +22,6 @@ test:
 
 production:
   adapter: postgresql
-  user: Rails.application.credentials.database[:user]
-  password: Rails.application.credentials.database[:password]
+  user: <%= Rails.application.credentials.database[:user] %>
+  password: <%= Rails.application.credentials.database[:password] %>
   database: serts
