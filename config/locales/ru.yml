@@ -2,13 +2,13 @@ ru:
   activerecord:
     models:
       drug: 'Препарат'
-      invoice: 'Накладная'
+      invoice: 'Товарно-сопроводительный документ'
       sert: 'Сетификат'
     attributes:
       drug:
         name: 'Название'
         serie: 'Серия'
       invoice:
-        number: 'Номер накладной'
+        number: 'Номер товарно-сопроводительного документа'
         date: 'Дата документа'
         inn: 'ИНН покупателя'
