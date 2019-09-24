@@ -67,7 +67,7 @@ private
     #Net::FTP.open('192.168.137.237', 'igor', 'Olga') do |ftp|
      Net::FTP.open('91.239.68.66',
                    Rails.application.credentials.dig(:ftp, :login),
-                   Rails.application.credentials.dig.(:ftp, :password) do |ftp|
+                   Rails.application.credentials.dig.(:ftp, :password)) do |ftp|
       ftp.chdir(self.sert_path)
       files = ftp.nlst
 
