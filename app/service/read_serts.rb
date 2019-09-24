@@ -17,11 +17,11 @@ class ReadSerts
      #                        Date.parse(invoice_data['date']).year.to_s,
      #                        invoice_data['number'],
      #                        invoice_data['inn']).first_or_initialize
-     invoice.date = invoice_data['date']
-     invoice.number = invoice_data['number']
-     invoice.inn = invoice_data['inn']
+      invoice.date = invoice_data['date']
+      invoice.number = invoice_data['number']
+      invoice.inn = invoice_data['inn']
 
-     invoice.drugs.delete_all
+      invoice.drugs.delete_all
 
       invoice_data['drugs'].each do |drug_data|
         drug = Drug.where(name: drug_data['name'], serie: drug_data['serie']).first_or_initialize
