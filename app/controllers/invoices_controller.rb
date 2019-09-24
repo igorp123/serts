@@ -32,7 +32,7 @@ class InvoicesController < ApplicationController
 
       redirect_to @invoice_found and return
     else
-      flash.now[:alert] = "The invoice wasn't found."
+      flash.now[:alert] = I18n.t('controllers.invoices.error')
     end
     render :index
   end
