@@ -49,16 +49,15 @@ class ReadSerts
   end
 
   def self.set_query(invoice_data)
-    if ENV['RAILS_ENV'] == 'production'
-      date_string =  "date_part('year', date)"
-    else
-      date_string = "STRFTIME('%Y', date)"
-
+    date_string = if ENV['RAILS_ENV'] == 'production'
+                    "date_part('year', date)"
+                  else
+                    "STRFTIME('%Y', date)"
+                  end
       # Invoice.where("date_part('year', date) = ? and number = ? and inn = ?",
       #             Date.parse(invoice_data['date']).year.to_s,
       #             invoice_data['number'],
       #             invoice_data['inn']).first_or_initialize
-    end
       # Invoice.where('STRFTIME("%Y", date) = ? and number = ? and inn = ?',
       #               Date.parse(invoice_data['date']).year.to_s,
       #               invoice_data['number'],
