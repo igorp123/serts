@@ -43,14 +43,15 @@ class ReadSerts
       file = File.read(file_name, encoding: 'utf-8')
 
       json_file = JSON.parse(file)
+
+      return
     rescue Errno::ENOENT
       puts 'Не найден файл выгрузки.'
     rescue JSON::ParserError
       puts 'Не правильный формат файла выгрузки'
-    else
-      abort
-
     end
+
+    exit
   end
 end
 
