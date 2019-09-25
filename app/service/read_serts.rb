@@ -39,9 +39,18 @@ class ReadSerts
   private
 
   def self.load_from_json(file_name)
-    file = File.read(file_name, encoding: 'utf-8')
+    begin
+      file = File.read(file_name, encoding: 'utf-8')
 
-    json_file = JSON.parse(file)
+      json_file = JSON.parse(file)
+    rescue Errno::ENOENT
+      puts 'Не найден файл выгрузки.'
+    rescue JSON::ParserError
+      puts 'Не правильный формат файла выгрузки'
+    else
+      abort
+
+    end
   end
 end
 
