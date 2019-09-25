@@ -8,21 +8,15 @@ class ReadSerts
     abort if invoices.nil?
 
     invoices.each do |invoice_data|
-      invoice = Invoice.where('STRFTIME("%Y", date) = ? and number = ? and inn = ?',
-                             Date.parse(invoice_data['date']).year.to_s,
-                             invoice_data['number'],
-                             invoice_data['inn']).first_or_initialize
+     invoice = self.set_query(invoice_data)
 
-
-     #invoice = Invoice.where("date_part('year', date) = ? and number = ? and inn = ?",
-     #                        Date.parse(invoice_data['date']).year.to_s,
-     #                        invoice_data['number'],
-     #                        invoice_data['inn']).first_or_initialize
       invoice.date = invoice_data['date']
       invoice.number = invoice_data['number']
       invoice.inn = invoice_data['inn']
 
       invoice.drugs.delete_all
+
+      abort if invoice_data.nil?
 
       invoice_data['drugs'].each do |drug_data|
         drug = Drug.where(name: drug_data['name'], serie: drug_data['serie']).first_or_initialize
@@ -47,15 +41,32 @@ class ReadSerts
 
       json_file = JSON.parse(file)
 
-      return
     rescue Errno::ENOENT
-      puts 'Не найден файл выгрузки.'
+      abort 'Не найден файл выгрузки.'
     rescue JSON::ParserError
-      puts 'Не правильный формат файла выгрузки'
+      abort 'Не правильный формат файла выгрузки'
     end
+  end
 
-    abort
+  def self.set_query(invoice_data)
+    if ENV['RAILS_ENV'] == 'production'
+      date_string =  "date_part('year', date)"
+    else
+      date_string = "STRFTIME('%Y', date)"
+
+      # Invoice.where("date_part('year', date) = ? and number = ? and inn = ?",
+      #             Date.parse(invoice_data['date']).year.to_s,
+      #             invoice_data['number'],
+      #             invoice_data['inn']).first_or_initialize
+    end
+      # Invoice.where('STRFTIME("%Y", date) = ? and number = ? and inn = ?',
+      #               Date.parse(invoice_data['date']).year.to_s,
+      #               invoice_data['number'],
+      #               invoice_data['inn']).first_or_initialize
+
+    Invoice.where("#{date_string} = ? and number = ? and inn = ?",
+                  Date.parse(invoice_data['date']).year.to_s,
+                  invoice_data['number'],
+                  invoice_data['inn']).first_or_initialize
   end
 end
-
-
