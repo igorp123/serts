@@ -5,6 +5,8 @@ class ReadSerts
   def self.call
     invoices = self.load_from_json(FILE_NAME)
 
+    abort if invoices.nil?
+
     invoices.each do |invoice_data|
       invoice = Invoice.where('STRFTIME("%Y", date) = ? and number = ? and inn = ?',
                              Date.parse(invoice_data['date']).year.to_s,
@@ -32,6 +34,7 @@ class ReadSerts
 
         invoice.drugs << drug
       end
+
       invoice.save!
     end
   end
@@ -51,7 +54,7 @@ class ReadSerts
       puts 'Не правильный формат файла выгрузки'
     end
 
-    exit
+    abort
   end
 end
 
