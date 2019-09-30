@@ -6,12 +6,16 @@ class ReadInvoicesFtp
   FILE = 'invoices.json'
 
   def self.call
-    Net::FTP.open('91.239.68.66',
-                  Rails.application.credentials.dig(:ftp, :login),
-                  Rails.application.credentials.dig(:ftp, :password)) do |ftp|
-      ftp.chdir(JSON_FOLDER)
+    begin
+      Net::FTP.open('91.239.68.66',
+                    Rails.application.credentials.dig(:ftp, :login),
+                    Rails.application.credentials.dig(:ftp, :password)) do |ftp|
 
+      ftp.chdir(JSON_FOLDER)
       ftp.getbinaryfile(FILE, "#{FILE_NAME}")
+    end
+    rescue Errno::ETIMEDOUT
+      abort 'Не удалось подключиться к ftp серверу'
     end
   end
 end
