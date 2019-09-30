@@ -1,7 +1,7 @@
 require 'net/ftp'
 
 class ReadInvoicesFtp
-  FILE_NAME = 'public/invoices1.json'
+  FILE_NAME = 'public/invoices.json'
   JSON_FOLDER = 'json'
   FILE = 'invoices.json'
 
