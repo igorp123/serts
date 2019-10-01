@@ -16,23 +16,10 @@ gem 'carrierwave'
 gem 'rmagick', require: false
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
-gem 'simple_form'
+gem 'simple_form', '~> 5.0.0'
 gem 'rails-i18n'
-gem 'rubyzip', '>= 1.0.0'
-gem 'prawn', '~>2.2.0' #pdf creator
-
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Reduces boot times through caching; required in config/boot.rb
+gem 'rubyzip', '~> 1.3.0'
+gem 'prawn', '~> 2.2.0' #pdf creator
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
