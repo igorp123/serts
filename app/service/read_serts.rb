@@ -15,9 +15,9 @@ class ReadSerts
     invoice.number = invoice_data['number']
     invoice.inn = invoice_data['inn']
 
-    invoice.drugs.delete_all
-
     abort if invoice_data.nil?
+
+    invoice.drugs.delete_all
 
     invoice_data['drugs'].each do |drug_data|
       drug = set_drug_query(drug_data)
