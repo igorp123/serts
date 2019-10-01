@@ -21,21 +21,6 @@ gem 'rails-i18n'
 gem 'rubyzip', '~> 1.3.0'
 gem 'prawn', '~> 2.2.0' #pdf creator
 gem 'whenever', require: false
-
-
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Reduces boot times through caching; required in config/boot.rb
->>>>>>> 54bb1a29bb18bc7739591a63b45719f78fe7b964
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
