@@ -23,7 +23,7 @@ class InvoicesController < ApplicationController
 
   def create
     invoice_params[:number] = change_lat_letters_in_number
-
+    byebug
     @invoice = Invoice.new(invoice_params)
 
     render :index and return unless @invoice.valid?
@@ -53,8 +53,9 @@ class InvoicesController < ApplicationController
     end
 
     def change_lat_letters_in_number
+      letters = {'M' => 'М', 'P' => 'Р'}
       invoice_params[:number].upcase!
-      invoice_params[:number].gsub('M' => 'М', 'P' => 'Р')
+      invoice_params[:number].gsub!(/M|P/, letters)
       invoice_params
     end
 end
