@@ -23,7 +23,7 @@ class InvoicesController < ApplicationController
 
   def create
     invoice_params[:number] = change_lat_letters_in_number
-    byebug
+
     @invoice = Invoice.new(invoice_params)
 
     render :index and return unless @invoice.valid?
