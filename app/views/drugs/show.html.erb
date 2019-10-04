@@ -6,18 +6,24 @@
   Серия <%= @drug.serie %>
 </div>
 
-<div class="drug-serts buffer-top">
-  <%= render partial: 'serts/sert', collection: @drug.serts.except(@new_sert) %>
-</div>
-<div class="sert-image-form">
-  <%#= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
-</div>
-<div>
-  <%= link_to 'Скачать в архиве', download_drug_path(@drug.token, format: :zip) %>
-</div>
-<div>
-  <%= link_to 'Скачать pdf', download_drug_path(@drug.token, format: :pdf) %>
-</div>
+<% if @drug.serts.except(@new_sert).any? %>
+  <div class="drug-serts buffer-top">
+    <%= render partial: 'serts/sert', collection: @drug.serts.except(@new_sert) %>
+  </div>
+
+  <div class="sert-image-form">
+    <%#= render partial: 'serts/form', locals: {sert: @new_sert || @drug.serts.build} %>
+  </div>
+
+  <div>
+    <%= link_to 'Скачать в архиве', download_drug_path(@drug.token, format: :zip) %>
+  </div>
+
+  <div>
+    <%= link_to 'Скачать pdf', download_drug_path(@drug.token, format: :pdf) %>
+  </div>
+<% end %>
+
 <div class="buffer-top">
   <%= link_to 'Назад', :back %>
 </div>
