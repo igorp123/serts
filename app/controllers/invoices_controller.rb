@@ -22,7 +22,10 @@ class InvoicesController < ApplicationController
   end
 
   def create
+    invoice_params[:number] = change_lat_letters_in_number
+
     @invoice = Invoice.new(invoice_params)
+
     render :index and return unless @invoice.valid?
 
     @invoice_found = Invoice.find_by(invoice_params)
@@ -48,4 +51,11 @@ class InvoicesController < ApplicationController
     def invoice_params
       params.require(:invoice).permit(:token, :number, :inn, :date)
     end
+
+    def change_lat_letters_in_number
+      invoice_params[:number].upcase!
+      invoice_params[:number].gsub!('M', 'М').gsub!('P', 'Р')
+      invoice_params
+    end
 end
+
