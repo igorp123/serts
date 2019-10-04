@@ -54,7 +54,7 @@ class InvoicesController < ApplicationController
 
     def change_lat_letters_in_number
       invoice_params[:number].upcase!
-      invoice_params[:number].gsub!('M', 'М').gsub!('P', 'Р')
+      invoice_params[:number].gsub!('M' => 'М', 'P' => 'Р')
       invoice_params
     end
 end
