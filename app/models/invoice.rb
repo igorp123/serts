@@ -7,7 +7,7 @@ class Invoice < ApplicationRecord
 
   validates :number, presence: true, format: { with: /\A[MМPР0-9][0-9]+\z/ }
   validates :date,  presence: true
-  validates :inn,  presence: true, length: { is: 10 }, format: { with: /\A[0-9]+\z/}
+  validates :inn,  presence: true, format: { with: /\A[0-9]+\z/}
 
   def to_param
     token
