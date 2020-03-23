@@ -5,7 +5,7 @@ class Invoice < ApplicationRecord
 
   has_and_belongs_to_many :drugs
 
-  validates :number, presence: true, format: { with: /\A[MМPР0-9][0-9]+\z/ }
+  validates :number, presence: true #, format: { with: /\A[MМPР0-9][0-9]+\z/ }
   validates :date,  presence: true
   validates :inn,  presence: true, format: { with: /\A[0-9]+\z/}
 
