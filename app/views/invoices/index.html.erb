@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 <div class="row">
   <div class="col-lg-6">
-<h2>Поиск сертификатов</h2>
+    <h2>Поиск сертификатов</h2>
 
 <div class="buffer-top">
-  <%= simple_form_for @invoice do |f| %>
-    <%= f.input :number %>
+   <%= simple_form_for @invoice do |f| %>
+   <%= f.input :number %>
 
     <%= f.input :date, as: :date, start_year: Date.today.year, end_year: Date.today.year, order: [:day, :month, :year], html5: true %>
 
@@ -15,7 +15,7 @@
   <% end %>
 </div>
 </div>
-</div>
+#</div>
 
 
 
