@@ -36,3 +36,5 @@
 
 /public/uploads/zip/*
 /public/uploads/pdf/*
+
+.idea/*
