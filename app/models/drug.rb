@@ -25,7 +25,7 @@ class Drug < ApplicationRecord
 
         stream.write IO.read(sert_url(sert))
       end
-    end
+  end
 
     file.rewind
 
@@ -65,9 +65,18 @@ private
 
   def get_serts_from_ftp
     begin
+      get_files(self.sert_path).each do |file|
+        puts file
+       end                     
+      
       Net::FTP.open('91.239.68.66',
                      Rails.application.credentials.dig(:ftp, :login),
                      Rails.application.credentials.dig(:ftp, :password)) do |ftp|
+                      
+        get_files(self.sert_path).each do |file|
+        puts file
+        end                     
+        
         begin
           ftp.chdir(self.sert_path)
         rescue Net::FTPPermError
@@ -97,6 +106,10 @@ private
     rescue Errno::ETIMEDOUT
       abort 'Не удалось подключиться к ftp серверу'
     end
+  end
+  
+  def get_files(path)
+    path.split(',')
   end
 end
 

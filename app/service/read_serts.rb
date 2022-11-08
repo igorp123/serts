@@ -9,30 +9,30 @@ class ReadSerts
 
     invoices.each do |invoice_data|
 
-    invoice = self.set_invoice_query(invoice_data)
+      invoice = self.set_invoice_query(invoice_data)
 
-    invoice.date = invoice_data['date']
-    invoice.number = invoice_data['number']
-    invoice.inn = invoice_data['inn']
+      invoice.date = invoice_data['date']
+      invoice.number = invoice_data['number']
+      invoice.inn = invoice_data['inn']
 
-    abort if invoice_data.nil?
+      abort if invoice_data.nil?
 
-    invoice.drugs.delete_all
+      invoice.drugs.delete_all
 
-    invoice_data['drugs'].each do |drug_data|
-      drug = set_drug_query(drug_data)
+      invoice_data['drugs'].each do |drug_data|
+        drug = set_drug_query(drug_data)
 
-      drug.name = drug_data['name']
-      drug.serie = drug_data['serie']
-      drug.sert_path = drug_data['path']
+        drug.name = drug_data['name']
+        drug.serie = drug_data['serie']
+        drug.sert_path = drug_data['path']
 
-      drug.save!
+        drug.save!
 
-      invoice.drugs << drug
+        invoice.drugs << drug
       end
 
       invoice.save!
-    end
+      end
   end
 
   private

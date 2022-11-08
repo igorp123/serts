@@ -1,19 +1,19 @@
 require 'net/ftp'
 
 class ReadInvoicesFtp
-  FILE_NAME = 'public/invoices.json'
-  JSON_FOLDER = 'json'
-  FILE = 'inv_uas.json'
-
+  FTP_ADDRESS = '91.239.68.66'
+  SOURCE_FILE = 'ftp/serts/json/inv_uas.json'
+  DESTINATION_FILE = 'public/invoices.json'
+  
   def self.call
     begin
-      # 91.239.68.66
-      Net::FTP.open('192.168.137.40',
-                    Rails.application.credentials.dig(:ftp, :login),
-                    Rails.application.credentials.dig(:ftp, :password)) do |ftp|
+      Net::FTP.send(:remove_const, 'FTP_PORT')
+      Net::FTP.const_set('FTP_PORT', 121)
 
-      ftp.chdir(JSON_FOLDER)
-      ftp.getbinaryfile(FILE, "#{FILE_NAME}")
+      Net::FTP.open(FTP_ADDRESS,
+                    Rails.application.credentials.dig(:ftp_new, :login),
+                    Rails.application.credentials.dig(:ftp_new, :password)) do |ftp|
+        ftp.getbinaryfile(SOURCE_FILE, DESTINATION_FILE)
     end
     rescue Errno::ETIMEDOUT
       abort 'Не удалось подключиться к ftp серверу'
