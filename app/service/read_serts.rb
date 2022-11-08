@@ -1,5 +1,4 @@
 class ReadSerts
-
   FILE_NAME = 'public/invoices.json'
 
   def self.call
@@ -8,15 +7,14 @@ class ReadSerts
     abort if invoices.nil?
 
     invoices.each do |invoice_data|
+      abort if invoice_data.nil?
 
       invoice = self.set_invoice_query(invoice_data)
 
       invoice.date = invoice_data['date']
       invoice.number = invoice_data['number']
       invoice.inn = invoice_data['inn']
-
-      abort if invoice_data.nil?
-
+     
       invoice.drugs.delete_all
 
       invoice_data['drugs'].each do |drug_data|
@@ -42,7 +40,6 @@ class ReadSerts
       file = File.read(file_name, encoding: 'utf-8')
 
       json_file = JSON.parse(file)
-
     rescue Errno::ENOENT
       abort 'Не найден файл выгрузки.'
     rescue JSON::ParserError
