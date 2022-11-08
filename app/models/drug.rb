@@ -8,6 +8,7 @@ class Drug < ApplicationRecord
 
   IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
   TMP_PATH = 'public/uploads/tmp/'
+  FTP_ADDRESS = '91.239.68.66'
 
   has_and_belongs_to_many :invoices
   has_many :serts
@@ -65,26 +66,33 @@ private
 
   def get_serts_from_ftp
     begin
-      get_files(self.sert_path).each do |file|
-        puts file
-       end                     
-      
-      Net::FTP.open('91.239.68.66',
-                     Rails.application.credentials.dig(:ftp, :login),
-                     Rails.application.credentials.dig(:ftp, :password)) do |ftp|
-                      
-        get_files(self.sert_path).each do |file|
-        puts file
-        end                     
+        # get_files(self.sert_path).each do |file|
         
+        #   puts '---------------------------------------------------------------'
+        # puts file
+        #  end                     
+        Net::FTP.send(:remove_const, 'FTP_PORT')
+      Net::FTP.const_set('FTP_PORT', 121)
+        Net::FTP.open(FTP_ADDRESS,
+          Rails.application.credentials.dig(:ftp_new, :login),
+          Rails.application.credentials.dig(:ftp_new, :password)) do |ftp|
+                      
+                    
+        
+        # begin
+        #   ftp.chdir(self.sert_path)
+        # rescue Net::FTPPermError
+        #   abort 'dir has not been found'
+        # end
+
         begin
-          ftp.chdir(self.sert_path)
-        rescue Net::FTPPermError
+          ftp.chdir('ftp/serts')
+            rescue Net::FTPPermError
           abort 'dir has not been found'
-        end
+          end
 
-        files = ftp.nlst
-
+        files = get_files(self.sert_path) #ftp.nlst
+        puts files
         files.each_with_index do |file, index|
           file_extension = file.split('.').last
 
