@@ -33,20 +33,20 @@ class Drug < ApplicationRecord
 
     file.rewind
 
-    File.new(zip_file_name, 'wb').write(file.sysread)
+    File.new(output_file_name('zip'), 'wb').write(file.sysread)
 
-    output_file_name(zip)
+    output_file_name('zip')
   end
 
   def create_serts_pdf
-    Prawn::Document.generate(pdf_file_name) do |pdf|
+    Prawn::Document.generate(output_file_name('pdf')) do |pdf|
       serts.each do |sert|
         pdf.image sert_url(sert), fit: [pdf.bounds.right, pdf.bounds.top]
 
         pdf.start_new_page unless pdf.page_count == serts.length
       end
     end
-    output_file_name(pdf)
+    output_file_name('pdf')
   end
 
 private
@@ -56,7 +56,7 @@ private
   end
 
   def output_file_name(type)
-    "OUTPUT_PATH#{type}/#{token}_serts.#{type}"
+    "#{OUTPUT_PATH}/#{type}/#{token}_serts.#{type}"
   end
 
   def sert_url(sert)
