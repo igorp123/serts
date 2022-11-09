@@ -8,7 +8,10 @@ class Drug < ApplicationRecord
 
   IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
   TMP_PATH = 'public/uploads/tmp/'
+  OUTPUT_PATH = 'public/uploads/'
   FTP_ADDRESS = '91.239.68.66'
+  FTP_PATH = 'ftp/serts/'
+  FTP_PORT = 121
 
   has_and_belongs_to_many :invoices
   has_many :serts
@@ -26,13 +29,13 @@ class Drug < ApplicationRecord
 
         stream.write IO.read(sert_url(sert))
       end
-  end
+    end
 
     file.rewind
 
     File.new(zip_file_name, 'wb').write(file.sysread)
 
-    zip_file_name
+    output_file_name(zip)
   end
 
   def create_serts_pdf
@@ -43,7 +46,7 @@ class Drug < ApplicationRecord
         pdf.start_new_page unless pdf.page_count == serts.length
       end
     end
-    pdf_file_name
+    output_file_name(pdf)
   end
 
 private
@@ -52,12 +55,8 @@ private
     self.token = SecureRandom.hex(4)
   end
 
-  def zip_file_name
-    "public/uploads/zip/#{token}_serts.zip"
-  end
-
-  def pdf_file_name
-    "public/uploads/pdf/#{token}_serts.pdf"
+  def output_file_name(type)
+    "OUTPUT_PATH#{type}/#{token}_serts.#{type}"
   end
 
   def sert_url(sert)
@@ -66,58 +65,40 @@ private
 
   def get_serts_from_ftp
     begin
-        # get_files(self.sert_path).each do |file|
-        
-        #   puts '---------------------------------------------------------------'
-        # puts file
-        #  end                     
-        Net::FTP.send(:remove_const, 'FTP_PORT')
-      Net::FTP.const_set('FTP_PORT', 121)
-        Net::FTP.open(FTP_ADDRESS,
+      Net::FTP.send(:remove_const, 'FTP_PORT')
+      Net::FTP.const_set('FTP_PORT', FTP_PORT)
+      Net::FTP.open(FTP_ADDRESS,
           Rails.application.credentials.dig(:ftp_new, :login),
           Rails.application.credentials.dig(:ftp_new, :password)) do |ftp|
-                      
-                    
-        
-        # begin
-        #   ftp.chdir(self.sert_path)
-        # rescue Net::FTPPermError
-        #   abort 'dir has not been found'
-        # end
 
-        begin
-          ftp.chdir('ftp/serts')
-            rescue Net::FTPPermError
-          abort 'dir has not been found'
-          end
+        files = get_file_names() #ftp.nlst
 
-        files = get_files(self.sert_path) #ftp.nlst
         puts files
+
         files.each_with_index do |file, index|
           file_extension = file.split('.').last
 
-          if IMAGE_TYPES.include? file_extension
-            local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
+          next if !IMAGE_TYPES.include? file_extension
 
-            ftp.getbinaryfile(file, local_file_name)
+          local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
 
-            sert_file = File.open(local_file_name)
+          ftp.getbinaryfile(file, local_file_name)
 
-            self.serts.build(sert: sert_file).save
-           
-            File.delete(local_file_name)
-          end
+          sert_file = File.open(local_file_name)
+
+          self.serts.build(sert: sert_file).save
+
+          File.delete(local_file_name)
         end
 
-      ftp.close
+        ftp.close
       end
     rescue Errno::ETIMEDOUT
       abort 'Не удалось подключиться к ftp серверу'
     end
   end
-  
-  def get_files(path)
-    path.split(',')
+
+  def get_file_names()
+    self.sert_path.split(',').map{|file_name| "#{FTP_PATH}#{file_name}"}
   end
 end
-
