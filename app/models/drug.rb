@@ -99,6 +99,6 @@ private
   end
 
   def get_file_names()
-    self.sert_path.split(',').map{|file_name| "#{FTP_PATH}#{file_name}"}
+    self.sert_path.split('!!').map{|file_name| "#{FTP_PATH}#{file_name}"}
   end
 end
