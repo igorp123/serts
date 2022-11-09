@@ -7,7 +7,6 @@
 
 <table class="table buffer-top">
   <thead>
-
     <th scope="col">Номенклатура</th>
     <th scope="col">Серия</th>
     </tr>
@@ -15,7 +14,7 @@
 
   <% @drugs.each do |drug| %>
     <tr>
-      <td><%= link_to "#{drug.name}", drug %></td>
+      <td><%= link_to "#{drug.name} (#{drug.serts.count} стр.)", drug %></td>
       <td><%= link_to "#{drug.serie}", drug %></td>
     </tr>
   <% end %>
