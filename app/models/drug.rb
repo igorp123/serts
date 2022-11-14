@@ -64,38 +64,58 @@ private
   end
 
   def get_serts_from_ftp
-    begin
-      Net::FTP.send(:remove_const, 'FTP_PORT')
-      Net::FTP.const_set('FTP_PORT', FTP_PORT)
-      Net::FTP.open(FTP_ADDRESS,
-          Rails.application.credentials.dig(:ftp_new, :login),
-          Rails.application.credentials.dig(:ftp_new, :password)) do |ftp|
+    result = 0
+    try_connect = 0
 
-        files = get_file_names() #ftp.nlst
+    file = File.new(Dir.pwd + "/log/ftp/name1.log", 'w')
 
-        puts files
+    while result != 1 && try_connect <= 5 do
+      puts '----------------------'
+      puts result
+      puts try_connect
+      puts '----------------------'
 
-        files.each_with_index do |file, index|
-          file_extension = file.split('.').last
+      begin
+        Net::FTP.send(:remove_const, 'FTP_PORT')
+        Net::FTP.const_set('FTP_PORT', FTP_PORT)
+        Net::FTP.open(FTP_ADDRESS,
+            Rails.application.credentials.dig(:ftp_new, :login),
+            Rails.application.credentials.dig(:ftp_new, :password)) do |ftp|
+          files = get_file_names() #ftp.nlst
 
-          next if !IMAGE_TYPES.include? file_extension
+          puts files
 
-          local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
+          files.each_with_index do |file, index|
+            file_extension = file.split('.').last
 
-          ftp.getbinaryfile(file, local_file_name)
+            next if !IMAGE_TYPES.include? file_extension
 
-          sert_file = File.open(local_file_name)
+            local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
 
-          self.serts.build(sert: sert_file).save
+            begin
+              ftp.getbinaryfile(file, local_file_name)
 
-          File.delete(local_file_name)
+              sert_file = File.open(local_file_name)
+
+              self.serts.build(sert: sert_file).save
+
+              File.delete(local_file_name)
+            rescue
+              puts 'Ошибка файла'
+            end
+          end
+
+          ftp.close
+
+          result = 1
         end
-
-        ftp.close
+      rescue
+        try_connect += 1
+        puts 'Ошибка подключения'
       end
-    rescue Errno::ETIMEDOUT
-      abort 'Не удалось подключиться к ftp серверу'
     end
+
+    abort
   end
 
   def get_file_names()
