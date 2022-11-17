@@ -4,7 +4,7 @@ require 'zip'
 
 class Drug < ApplicationRecord
   before_create :generate_token
-  after_create :get_serts_from_ftp
+  #after_create :get_serts_from_ftp
 
   IMAGE_TYPES = %w(jpg jpeg gif bmp tiff tif png)
   TMP_PATH = 'public/uploads/tmp/'
@@ -12,6 +12,7 @@ class Drug < ApplicationRecord
   FTP_ADDRESS = '91.239.68.66'
   FTP_PATH = 'ftp/serts/'
   FTP_PORT = 121
+  COUNT_CONNECT_FTP = 10
 
   has_and_belongs_to_many :invoices
   has_many :serts
@@ -49,7 +50,7 @@ class Drug < ApplicationRecord
     output_file_name('pdf')
   end
 
-private
+#private
 
   def generate_token
     self.token = SecureRandom.hex(4)
@@ -67,13 +68,8 @@ private
     result = 0
     try_connect = 0
 
-    file = File.new(Dir.pwd + "/log/ftp/name1.log", 'w')
-
-    while result != 1 && try_connect <= 5 do
-      puts '----------------------'
-      puts result
-      puts try_connect
-      puts '----------------------'
+    while result != 1 && try_connect <= COUNT_CONNECT_FTP do
+      puts "Try #{try_connect}/#{COUNT_CONNECT_FTP}"
 
       begin
         Net::FTP.send(:remove_const, 'FTP_PORT')
@@ -115,7 +111,7 @@ private
       end
     end
 
-    abort
+   # abort
   end
 
   def get_file_names()

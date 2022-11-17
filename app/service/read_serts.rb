@@ -14,7 +14,7 @@ class ReadSerts
       invoice.date = invoice_data['date']
       invoice.number = invoice_data['number']
       invoice.inn = invoice_data['inn']
-     
+
       invoice.drugs.delete_all
 
       invoice_data['drugs'].each do |drug_data|
@@ -25,6 +25,17 @@ class ReadSerts
         drug.sert_path = drug_data['path']
 
         drug.save!
+
+        if drug.serts.count < drug.get_file_names.count
+          drug.serts.delete_all
+          drug.get_serts_from_ftp
+        end
+
+        puts '-----------------------'
+        puts "В базе #{drug.serts.count}"
+        puts "В json #{drug.get_file_names.count}"
+        puts '------------------------'
+        #drug.get_serts_from_ftp
 
         invoice.drugs << drug
       end
