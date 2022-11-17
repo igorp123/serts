@@ -25,10 +25,12 @@ class ReadSerts
         drug.sert_path = drug_data['path']
 
         drug.save!
+        puts '#{drug.serts.count} | #{drug.get_file_names.count}'
 
         if drug.serts.count < drug.get_file_names.count
           drug.serts.destroy_all
 
+          puts '#{drug.serts.count} | #{drug.get_file_names.count}'
           drug.get_serts_from_ftp
         end
 
