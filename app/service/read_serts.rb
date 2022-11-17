@@ -32,12 +32,6 @@ class ReadSerts
           drug.get_serts_from_ftp
         end
 
-        puts '-----------------------'
-        puts "В базе #{drug.serts.count}"
-        puts "В json #{drug.get_file_names.count}"
-        puts '------------------------'
-        #drug.get_serts_from_ftp
-
         invoice.drugs << drug
       end
 
@@ -47,7 +41,7 @@ class ReadSerts
 
   private
 
-  def self.load_from_json(file_name)
+  def load_from_json(file_name)
     begin
       file = File.read(file_name, encoding: 'utf-8')
 
@@ -59,7 +53,7 @@ class ReadSerts
     end
   end
 
-  def self.set_invoice_query(invoice_data)
+  def set_invoice_query(invoice_data)
     date_string = if ENV['RAILS_ENV'] == 'production'
                     "date_part('year', date)"
                   else
