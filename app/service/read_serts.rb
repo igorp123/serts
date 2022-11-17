@@ -2,7 +2,7 @@ class ReadSerts
   FILE_NAME = 'public/invoices.json'
 
   def self.call
-    invoices = self.load_from_json(FILE_NAME)
+    invoices = load_from_json(FILE_NAME)
 
     abort if invoices.nil?
 
@@ -41,7 +41,7 @@ class ReadSerts
 
   private
 
-  def load_from_json(file_name)
+  def self.load_from_json(file_name)
     begin
       file = File.read(file_name, encoding: 'utf-8')
 
@@ -53,7 +53,7 @@ class ReadSerts
     end
   end
 
-  def set_invoice_query(invoice_data)
+  def self.set_invoice_query(invoice_data)
     date_string = if ENV['RAILS_ENV'] == 'production'
                     "date_part('year', date)"
                   else
