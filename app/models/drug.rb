@@ -111,7 +111,7 @@ class Drug < ApplicationRecord
       end
     end
 
-    abort if try_connect = COUNT_CONNECT_FTP
+    abort if try_connect == COUNT_CONNECT_FTP
   end
 
   def get_file_names()
