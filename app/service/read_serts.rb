@@ -26,7 +26,8 @@ class ReadSerts
 
         drug.save!
 
-        if drug.serts.count != drug.get_file_names.count
+        if drug.serts.count != drug.get_file_names.count &&
+           drug.get_file_names.count != 0
           drug.serts.destroy_all
 
           drug.get_serts_from_ftp
