@@ -22,7 +22,9 @@ class InvoicesController < ApplicationController
   end
 
   def create
-    invoice_params[:number] = change_lat_letters_in_number
+    change_lat_letters_in_params_number
+
+    params[:invoice][:number] = add_R_to_invoice_number(invoice_params[:number])
 
     @invoice = Invoice.new(invoice_params)
 
@@ -37,6 +39,7 @@ class InvoicesController < ApplicationController
     else
       flash.now[:alert] = I18n.t('controllers.invoices.error')
     end
+
     render :index
   end
 
@@ -52,11 +55,17 @@ class InvoicesController < ApplicationController
       params.require(:invoice).permit(:token, :number, :inn, :date)
     end
 
-    def change_lat_letters_in_number
-      letters = {'M' => 'М', 'P' => 'Р'}
-      invoice_params[:number].upcase!
-      invoice_params[:number].gsub!(/M|P/, letters)
-      invoice_params
+    def change_lat_letters_in_params_number
+      letters = {'M' => 'М', 'P' => 'Р', 'T' => 'Т'}
+      params[:invoice][:number].upcase!
+      params[:invoice][:number].gsub!(/M|P/, letters)
+    end
+
+    def add_R_to_invoice_number(number)
+      return if number.empty?
+
+      number = 'Р' + number if number =~ /^[0-9]/
+
+      number
     end
 end
-
