@@ -90,12 +90,13 @@ class Drug < ApplicationRecord
 
             begin
               ftp.getbinaryfile(file, local_file_name, 1024)
-
+              puts 'getbinary'
               sert_file = File.open(local_file_name)
-
+              puts 'open local file'
               serts.build(sert: sert_file).save
-
+              puts 'sert build'
               File.delete(local_file_name)
+              puts 'file delete'
             rescue
               puts 'Ошибка файла'
             end
