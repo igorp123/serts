@@ -93,6 +93,7 @@ class Drug < ApplicationRecord
               puts 'getbinary'
               sert_file = File.open(local_file_name)
               puts 'open local file'
+              sleep 1
               serts.build(sert: sert_file).save
               puts 'sert build'
               File.delete(local_file_name)
