@@ -30,6 +30,8 @@ class ReadSerts
            drug.get_file_names.count != 0
           drug.serts.destroy_all
 
+	  puts invoice.number
+
           drug.get_serts_from_ftp
         end
 

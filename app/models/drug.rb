@@ -66,6 +66,7 @@ class Drug < ApplicationRecord
 
   def get_serts_from_ftp
     result = 0
+
     try_connect = 0
 
     while result != 1 && try_connect <= COUNT_CONNECT_FTP do
@@ -82,6 +83,9 @@ class Drug < ApplicationRecord
           puts files
 
           files.each_with_index do |file, index|
+
+	    puts index
+            
             file_extension = file.split('.').last
 
             next if !IMAGE_TYPES.include? file_extension
@@ -90,18 +94,12 @@ class Drug < ApplicationRecord
 
             begin
               ftp.getbinaryfile(file, local_file_name, 1024)
-              puts 'getbinary'
-              sert_file = File.open(local_file_name)
-              puts 'open local file'
+	
+	      sert_file = File.open(local_file_name)
 
-              if sert_file
-                serts.build(sert: sert_file).save
-              else
-                puts 'Error aaa'
-              end
-              puts 'sert build'
+              serts.build(sert: sert_file).save
+
               File.delete(local_file_name)
-              puts 'file delete'
             rescue
               puts 'Ошибка файла'
             end
