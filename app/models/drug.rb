@@ -89,7 +89,7 @@ class Drug < ApplicationRecord
             local_file_name = "#{TMP_PATH}image_#{index + 1}.#{file_extension}"
 
             begin
-              ftp.getbinaryfile(file, local_file_name)
+              ftp.getbinaryfile(file, local_file_name, 1024)
 
               sert_file = File.open(local_file_name)
 
